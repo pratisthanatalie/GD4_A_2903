@@ -1,7 +1,7 @@
-import React from 'react';
-import { FaQuestion } from 'react-icons/fa';
+import React from "react";
 
 function Card({ card, isFlipped, isMatched, onFlip }) {
+  const Icon = card.icon;
 
   const handleClick = () => {
     if (!isFlipped && !isMatched) {
@@ -9,22 +9,74 @@ function Card({ card, isFlipped, isMatched, onFlip }) {
     }
   };
 
-  const isOpen = isFlipped || isMatched;
-  const IconComponent = card.icon;
-
-  const cardClass = `w-20 h-20 flex items-center justify-center text-3xl rounded-xl cursor-pointer select-none transition-all duration-300 transform
-    ${isOpen ? 'bg-white shadow-md scale-100' : 'bg-gradient-to-br from-purple-500 to-indigo-600 shadow-lg hover:scale-105 hover:shadow-xl'}
-    ${isMatched ? 'opacity-70 ring-2 ring-green-400' : ''}`;
-
   return (
-    <div onClick={handleClick} className={cardClass}>
-      {isOpen ? (
-        <span className="animate-bounce-once">
-          <IconComponent style={{ color: card.color }} />
-        </span>
-      ) : (
-        <FaQuestion className="text-white/60 text-xl" />
-      )}
+    <div
+      onClick={handleClick}
+      className="
+        w-24 h-24
+        cursor-pointer
+        perspective
+        transform
+        transition
+        duration-300
+        hover:scale-110
+        active:scale-95
+        hover:shadow-2xl
+        hover:shadow-blue-400/40
+      "
+    >
+      <div
+        className={`relative w-full h-full transition-transform duration-500 ${
+          isFlipped || isMatched ? "rotate-y-180" : ""
+        }`}
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* kartu depan */}
+        <div
+          className="
+            absolute
+            w-full
+            h-full
+            flex
+            items-center
+            justify-center
+            rounded-xl
+            bg-gradient-to-br
+            from-blue-500
+            to-cyan-400
+            text-white
+            text-3xl
+            font-extrabold
+            shadow-lg
+            hover:shadow-cyan-400/40
+          "
+          style={{ backfaceVisibility: "hidden" }}
+        >
+          ?
+        </div>
+
+        {/* kartu belakang */}
+        <div
+          className="
+            absolute
+            w-full
+            h-full
+            flex
+            items-center
+            justify-center
+            rounded-xl
+            bg-white
+            text-3xl
+            shadow-lg
+          "
+          style={{
+            transform: "rotateY(180deg)",
+            backfaceVisibility: "hidden",
+          }}
+        >
+          <Icon style={{ color: card.color }} />
+        </div>
+      </div>
     </div>
   );
 }
